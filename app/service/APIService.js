@@ -6,6 +6,10 @@ var qs = require("qs");
 
 function ApiService () {
 
+    this.addBook = function(req, res) {
+        return res.json({status: 'ok'});
+    };
+
     this.userDetails = function(req, res) {
         var session = req.session;
         var userDetails = {
@@ -23,6 +27,12 @@ function ApiService () {
 
     this.doLogout = function(req, res) {
         req.session.destroy();
+        return res.json({status: 'ok'});
+    };
+
+    this.doLogin = function(req, res) {
+        //TODO
+        req.session.userData = {name: 'SomeName', userName: 'userName'};
         return res.json({status: 'ok'});
     };
 }

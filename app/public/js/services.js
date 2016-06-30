@@ -3,7 +3,7 @@
 
 /* Services */
 
-var tradingServices = angular.module('tradingService', ['ngResource']);
+var tradingServices = angular.module('tradingServices', ['ngResource']);
 
 tradingServices.factory('tradingService', ['$http', '$location',
     function($http, $location) {
@@ -20,8 +20,16 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var doLogin = function() {
+            var url = appContext + '/api/login';
+            return $http.get(url).then(function (response) {
+                return response.data;
+            });
+        };
+
         return {
-            userDetails: userDetails
+            userDetails: userDetails,
+            doLogin: doLogin
         };
     }]);
 

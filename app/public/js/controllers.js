@@ -18,6 +18,10 @@ tradingControllers.controller('barController', ['$scope', '$rootScope', '$route'
             $rootScope.userDetails = data;
         });
 
-
+        $scope.login = function () {
+            tradingService.doLogin().then(function() {
+                $route.reload();
+            });
+        };
 
     }]);
