@@ -9,6 +9,20 @@ tradingControllers.controller('homeController', ['$scope', '$route', '$window','
 
     }]);
 
+
+tradingControllers.controller('allBooksController', ['$scope', '$route', '$window','$location', 'tradingService',
+    function ($scope, $route, $window, $location, tradingService) {
+
+
+    }]);
+
+
+tradingControllers.controller('myBooksController', ['$scope', '$route', '$window','$location', 'tradingService',
+    function ($scope, $route, $window, $location, tradingService) {
+
+
+    }]);
+
 tradingControllers.controller('barController', ['$scope', '$rootScope', '$route', '$routeParams' ,'$window','$location', 'tradingService',
     function ($scope, $rootScope, $route, $routeParams , $window, $location, tradingService) {
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  ng-app="tradingApp">
+<html lang="en" ng-app="tradingApp">
 <head>
     <meta charset="UTF-8">
     <title>FCC Book Trading App</title>
@@ -14,21 +14,28 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">FCC Book Trading App</a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 <li><a href="/#/home" data-toggle="tab">Home</a></li>
-                <li ng-show="!userDetails.isLogged"><button ng-click="login()" class="btn btn-primary sign-in">Sign in</button></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a ng-href="/#/all-books" data-toggle="tab">All Books</a></li>
+                <li><a ng-href="/#/my-books" data-toggle="tab">My Books</a></li>
 
+                <li ng-show="!userDetails.isLogged">
+                    <button ng-click="login()" class="btn btn-primary sign-in">Sign in</button>
+                </li>
                 <li ng-show="userDetails.isLogged">
-                <div class="dropdown sign-in">
+                    <div class="dropdown sign-in">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                            {{userDetails.name}}
+                            <span class="caret"></span>
+                        </button>
 
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
-                        {{userDetails.name}}
-                        <span class="caret"></span>
-                    </button>
-
-                    <ul class="dropdown-menu">
-                        <li class="text-center"><button ng-click="logout()" class="btn btn-danger sign-out">Sign out</button></li>
-                    </ul>
+                        <ul class="dropdown-menu">
+                            <li class="text-center">
+                                <button ng-click="logout()" class="btn btn-danger sign-out">Sign out</button>
+                            </li>
+                        </ul>
                     </div>
                 </li>
             </ul>
