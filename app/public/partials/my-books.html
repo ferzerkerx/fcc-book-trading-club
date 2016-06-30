@@ -1,3 +1,12 @@
 <div>
-    <h1>my-books</h1>
+    <h1>My Books:</h1>
+    <form ng-submit="addBook()">
+        <input type="text" placeholder="Add Book" ng-model="form.bookName" />
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+    <div class="added-books">
+        <ul ng-repeat="book in userBooks">
+            <li><img ng-src="{{book.img_url}}"/></li>
+        </ul>
+    </div>
 </div>

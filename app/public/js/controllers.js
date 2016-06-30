@@ -19,7 +19,18 @@ tradingControllers.controller('allBooksController', ['$scope', '$route', '$windo
 
 tradingControllers.controller('myBooksController', ['$scope', '$route', '$window','$location', 'tradingService',
     function ($scope, $route, $window, $location, tradingService) {
+        $scope.form = {};
+        $scope.userBooks = [];
 
+        $scope.addBook = function() {
+            tradingService.addBook($scope.form.bookName).then(function(data) {
+                $scope.userBooks.push(data);
+            });
+        };
+
+        tradingService.listMyBooks().then(function(data) {
+            $scope.userBooks = data;
+        });
 
     }]);
 

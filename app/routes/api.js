@@ -10,6 +10,9 @@ module.exports = function (app) {
     app.route('/api/my-books/')
         .post(apiService.addBook);
 
+    app.route('/api/my-books/')
+        .get(apiService.listMyBooks);
+
     app.route('/api/userDetails')
         .get(apiService.userDetails);
 

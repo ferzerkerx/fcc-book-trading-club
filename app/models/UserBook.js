@@ -2,12 +2,13 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
-var User = new Schema({ name: String});
+var ObjectId = Schema.ObjectId;
 
 var UserBook = new Schema({
     name: String,
-    owner: [User]
+    book_id: String,
+    img_url: String,
+    owner: ObjectId
 });
 
 module.exports = mongoose.model('UserBook', UserBook);

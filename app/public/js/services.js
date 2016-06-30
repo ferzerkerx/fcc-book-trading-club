@@ -27,7 +27,24 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var addBook = function(bookName) {
+            var url = appContext + '/api/my-books/';
+            return $http.post(url, {bookName: bookName}).then(function (response) {
+                return response.data;
+            });
+        };
+
+        var listMyBooks = function() {
+            var url = appContext + '/api/my-books/';
+            return $http.get(url).then(function (response) {
+                return response.data;
+            });
+        };
+
+
         return {
+            addBook: addBook,
+            listMyBooks: listMyBooks,
             userDetails: userDetails,
             doLogin: doLogin
         };
