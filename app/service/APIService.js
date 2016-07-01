@@ -10,10 +10,19 @@ function ApiService () {
 
     var googleApiKey = process.env.GOOGLE_API_KEY;
 
+    this.removeBook = function(req, res) {
+        UserBook.findOneAndRemove({owner: req.session.userData.id, book_id: req.params.selectedBookId}, function(err, poll) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json(err);
+            }
+            return res.json(poll);
+        });
+    };
+
     this.addBook = function(req, res) {
 
         var bookName = req.body.bookName;
-
         request('https://www.googleapis.com/books/v1/volumes?maxResults=1&q='+ bookName+'&key='+ googleApiKey,
             function (error, response, body) {
                 if (!error && response.statusCode == 200) {

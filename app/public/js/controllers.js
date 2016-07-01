@@ -28,6 +28,14 @@ tradingControllers.controller('myBooksController', ['$scope', '$route', '$window
             });
         };
 
+        $scope.removeBook = function(index) {
+            var book = $scope.userBooks[index];
+
+            tradingService.removeBook(book.book_id).then(function() {
+                $scope.userBooks.splice(index, 1);
+            });
+        };
+
         tradingService.listMyBooks().then(function(data) {
             $scope.userBooks = data;
         });

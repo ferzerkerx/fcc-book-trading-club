@@ -1,0 +1,30 @@
+.added-books {
+    margin-top: 2em;
+}
+
+.book-img {
+    margin: auto;
+    border: 0.3em black solid;
+    width: 9.2em;
+    height: 14em;
+}
+
+
+.image-text-on-top {
+    position: relative;
+}
+
+.image-text-on-top span {
+    position: absolute;
+    left: 0.5em;
+    right: 0.5em;
+    width: 90%;
+    text-align: right;
+}
+
+.dismiss-book {
+    color: red;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+}

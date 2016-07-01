@@ -1,12 +1,15 @@
 <div>
     <h1>My Books:</h1>
     <form ng-submit="addBook()">
-        <input type="text" placeholder="Add Book" ng-model="form.bookName" />
+        <input type="text" placeholder="Add Book" ng-model="form.bookName"/>
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
     <div class="added-books">
-        <ul ng-repeat="book in userBooks">
-            <li><img ng-src="{{book.img_url}}"/></li>
-        </ul>
+        <span ng-repeat="book in userBooks">
+            <span class="image-text-on-top">
+                <img ng-src="{{book.img_url}}" class="book-img"/>
+                <span><a ng-click="removeBook($index)" class="dismiss-book">X</a></span>
+            </span>
+        </span>
     </div>
 </div>

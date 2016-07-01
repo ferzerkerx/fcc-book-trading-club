@@ -34,6 +34,13 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var removeBook = function(bookId) {
+            var url = appContext + '/api/my-books/' + bookId;
+            return $http.delete(url).then(function (response) {
+                return response.data;
+            });
+        };
+
         var listMyBooks = function() {
             var url = appContext + '/api/my-books/';
             return $http.get(url).then(function (response) {
@@ -44,6 +51,7 @@ tradingServices.factory('tradingService', ['$http', '$location',
 
         return {
             addBook: addBook,
+            removeBook: removeBook,
             listMyBooks: listMyBooks,
             userDetails: userDetails,
             doLogin: doLogin
