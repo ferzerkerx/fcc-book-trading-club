@@ -25,6 +25,9 @@ module.exports = function (app) {
     app.route('/api/my-books/')
         .get(nocache, apiService.listMyBooks);
 
+    app.route('/api/all-books/')
+        .get(nocache, apiService.listAllBooks);
+
     app.route('/api/userDetails')
         .get(nocache, apiService.userDetails);
 

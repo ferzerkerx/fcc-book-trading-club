@@ -13,6 +13,11 @@ tradingControllers.controller('homeController', ['$scope', '$route', '$window','
 tradingControllers.controller('allBooksController', ['$scope', '$route', '$window','$location', 'tradingService',
     function ($scope, $route, $window, $location, tradingService) {
 
+        $scope.books = [];
+
+        tradingService.listAllBooks().then(function(data) {
+            $scope.books = data;
+        });
 
     }]);
 

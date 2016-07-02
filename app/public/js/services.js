@@ -48,11 +48,19 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var listAllBooks = function() {
+            var url = appContext + '/api/all-books/';
+            return $http.get(url).then(function (response) {
+                return response.data;
+            });
+        };
+
 
         return {
             addBook: addBook,
             removeBook: removeBook,
             listMyBooks: listMyBooks,
+            listAllBooks: listAllBooks,
             userDetails: userDetails,
             doLogin: doLogin
         };

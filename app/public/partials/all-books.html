@@ -1,3 +1,11 @@
 <div>
-    <h1>All Books</h1>
+    <h1>All Books:</h1>
+    <div class="added-books">
+        <span ng-repeat="book in books">
+            <span class="image-text-on-top">
+                <img ng-src="{{book.img_url}}" class="book-img"/>
+                <span><a ng-click="removeBook($index)" class="dismiss-book">X</a></span>
+            </span>
+        </span>
+    </div>
 </div>

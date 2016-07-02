@@ -54,12 +54,22 @@ function ApiService () {
     };
 
     this.listMyBooks = function(req, res) {
-        UserBook.find({owner:req.session.userData.id}, function(err, polls){
+        UserBook.find({owner:req.session.userData.id}, function(err, books){
             if (err) {
                 console.log(err);
                 return res.json(500, {});
             }
-            return res.json(polls);
+            return res.json(books);
+        });
+    };
+
+    this.listAllBooks = function(req, res) {
+        UserBook.find({}, function(err, books){
+            if (err) {
+                console.log(err);
+                return res.json(500, {});
+            }
+            return res.json(books);
         });
     };
 
