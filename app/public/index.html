@@ -20,6 +20,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a ng-href="/#/all-books" data-toggle="tab">All Books</a></li>
                 <li><a ng-href="/#/my-books" data-toggle="tab">My Books</a></li>
+                <li ng-show="userDetails.isLogged"><a ng-href="/#/settings" data-toggle="tab">Settings</a></li>
 
                 <li ng-show="!userDetails.isLogged">
                     <button ng-click="login()" class="btn btn-primary sign-in">Sign in</button>

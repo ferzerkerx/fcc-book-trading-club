@@ -17,7 +17,10 @@ module.exports = function (app) {
     var apiService = new ApiService();
 
     app.route('/api/my-books/')
-        .post(apiService.addBook);
+        .post(apiService.addUserBook);
+
+    app.route('/api/my-settings/')
+        .put(apiService.updateUserSettings);
 
     app.route('/api/my-books/:selectedBookId')
         .delete(apiService.removeBook);

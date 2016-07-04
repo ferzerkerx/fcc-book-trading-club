@@ -11,16 +11,33 @@ function ApiService () {
     var googleApiKey = process.env.GOOGLE_API_KEY;
 
     this.removeBook = function(req, res) {
-        UserBook.findOneAndRemove({owner: req.session.userData.id, book_id: req.params.selectedBookId}, function(err, poll) {
+        UserBook.findOneAndRemove({owner: req.session.userData.id, book_id: req.params.selectedBookId}, function(err, book) {
             if (err) {
                 console.log(err);
                 return res.status(500).json(err);
             }
-            return res.json(poll);
+            return res.json(book);
         });
     };
 
-    this.addBook = function(req, res) {
+    this.updateUserSettings = function(req, res) {
+        var updateFields = {
+            fullName: req.params.fullName,
+            city: req.params.city,
+            state: req.params.state
+        };
+        User.findOneAndUpdate({_id: req.session.userData.id},
+            updateFields, function (err, user) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json(err);
+                }
+                return res.json(user);
+            });
+
+    };
+
+    this.addUserBook = function(req, res) {
 
         var bookName = req.body.bookName;
         request('https://www.googleapis.com/books/v1/volumes?maxResults=1&q='+ bookName+'&key='+ googleApiKey,
@@ -77,12 +94,18 @@ function ApiService () {
         var session = req.session;
         var userDetails = {
             name: undefined,
-            isLogged: false
+            isLogged: false,
+            fullName: undefined,
+            city: undefined,
+            state: undefined
         };
         if (session.hasOwnProperty('userData')) {
             userDetails.isLogged = true;
             userDetails.name = session.userData.name;
             userDetails.username = session.userData.userName;
+            userDetails.fullName = session.userData.fullName;
+            userDetails.city = session.userData.city;
+            userDetails.state = session.userData.state;
         }
         return res.json(userDetails);
 

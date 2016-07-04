@@ -21,6 +21,10 @@ tradingApp.config(['$routeProvider',
         .when('/all-books', {
             templateUrl: 'public/partials/all-books.html',
             controller: 'allBooksController'
+        })
+        .when('/settings', {
+            templateUrl: 'public/partials/settings.html',
+            controller: 'settingsController'
         }).
         otherwise({
             redirectTo: '/home'

@@ -55,12 +55,20 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var updateSettings = function(settings) {
+            var url = appContext + '/api/my-settings/';
+            return $http.put(url, settings).then(function (response) {
+                return response.data;
+            });
+        };
+
 
         return {
             addBook: addBook,
             removeBook: removeBook,
             listMyBooks: listMyBooks,
             listAllBooks: listAllBooks,
+            updateSettings: updateSettings,
             userDetails: userDetails,
             doLogin: doLogin
         };
