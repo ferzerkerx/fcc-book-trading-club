@@ -53,14 +53,13 @@ tradingControllers.controller('settingsController', ['$scope', '$rootScope','$ro
 
         refreshUserDetails(tradingService, $rootScope);
 
-        $scope.form = {
-            fullName: $rootScope.userDetails.fullName,
-            city: $rootScope.userDetails.city,
-            state: $rootScope.userDetails.state
-        };
-
         $scope.updateSettings = function() {
-            tradingService.updateSettings($scope.form).then(function() {
+            var form = {
+                fullName: $rootScope.userDetails.fullName,
+                city: $rootScope.userDetails.city,
+                state: $rootScope.userDetails.state
+            };
+            tradingService.updateSettings(form).then(function() {
                 $location.path('/home');
             });
         };
