@@ -20,8 +20,15 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
-        var doLogin = function() {
+        var doLogin = function(data) {
             var url = appContext + '/api/login';
+            return $http.post(url, data).then(function (response) {
+                return response.data;
+            });
+        };
+
+        var doLogout = function() {
+            var url = appContext + '/api/logout';
             return $http.get(url).then(function (response) {
                 return response.data;
             });
@@ -62,15 +69,24 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var signUp = function(settings) {
+            var url = appContext + '/api/user/';
+            return $http.post(url, settings).then(function (response) {
+                return response.data;
+            });
+        };
+
 
         return {
             addBook: addBook,
             removeBook: removeBook,
             listMyBooks: listMyBooks,
             listAllBooks: listAllBooks,
+            signUp: signUp,
             updateSettings: updateSettings,
             userDetails: userDetails,
-            doLogin: doLogin
+            doLogin: doLogin,
+            doLogout: doLogout
         };
     }]);
 

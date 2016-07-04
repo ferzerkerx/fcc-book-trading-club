@@ -38,6 +38,9 @@ module.exports = function (app) {
         .get(apiService.doLogout);
 
     app.route('/api/login')
-        .get(apiService.doLogin);
+        .post(apiService.doLogin);
+
+    app.route('/api/user/')
+        .post(apiService.createUser);
 
 };

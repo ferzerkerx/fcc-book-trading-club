@@ -4,6 +4,7 @@ var path = process.cwd();
 var UserBook = require(path + '/app/models/UserBook.js');
 var User = require(path + '/app/models/User.js');
 var qs = require("qs");
+//var bcrypt = require("bcrypt");
 var request = require("request");
 
 function ApiService () {
@@ -11,7 +12,8 @@ function ApiService () {
     var googleApiKey = process.env.GOOGLE_API_KEY;
 
     this.removeBook = function(req, res) {
-        UserBook.findOneAndRemove({owner: req.session.userData.id, book_id: req.params.selectedBookId}, function(err, book) {
+        var filters = {owner: req.session.userData.id, book_id: req.params.selectedBookId};
+        UserBook.findOneAndRemove(filters, function(err, book) {
             if (err) {
                 console.log(err);
                 return res.status(500).json(err);
@@ -20,11 +22,21 @@ function ApiService () {
         });
     };
 
+    function setUserSessionData(req, user) {
+        req.session.userData = {
+            id: user._id,
+            userName: user.userName,
+            fullName: user.fullName,
+            city: user.city,
+            state: user.state
+        };
+    }
+
     this.updateUserSettings = function(req, res) {
         var updateFields = {
-            fullName: req.params.fullName,
-            city: req.params.city,
-            state: req.params.state
+            fullName: req.body.fullName,
+            city: req.body.city,
+            state: req.body.state
         };
         User.findOneAndUpdate({_id: req.session.userData.id},
             updateFields, function (err, user) {
@@ -32,6 +44,12 @@ function ApiService () {
                     console.log(err);
                     return res.status(500).json(err);
                 }
+
+                user.fullName = updateFields.fullName;
+                user.city = updateFields.city;
+                user.state = updateFields.state;
+
+                setUserSessionData(req, user);
                 return res.json(user);
             });
 
@@ -101,11 +119,11 @@ function ApiService () {
         };
         if (session.hasOwnProperty('userData')) {
             userDetails.isLogged = true;
-            userDetails.name = session.userData.name;
-            userDetails.username = session.userData.userName;
-            userDetails.fullName = session.userData.fullName;
-            userDetails.city = session.userData.city;
-            userDetails.state = session.userData.state;
+            var userData = session.userData;
+            userDetails.userName = userData.userName;
+            userDetails.fullName = userData.fullName;
+            userDetails.city = userData.city;
+            userDetails.state = userData.state;
         }
         return res.json(userDetails);
 
@@ -117,14 +135,35 @@ function ApiService () {
     };
 
     this.doLogin = function(req, res) {
-        //TODO remove hardcode
-        req.session.userData = {
-            name: 'SomeName',
-            userName: 'userName',
-            id: '5775538f216b47541f2ad871'
+        User.findOne({userName: req.body.userName}, function (err, user) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json(err);
+            }
 
-        };
-        return res.json({status: 'ok'});
+            //var doesMatch = bcrypt.compareSync(user.password, req.body.password);
+            var doesMatch = user.password === req.body.password;
+            if (doesMatch) {
+                setUserSessionData(req, user);
+            }
+            return res.json({status: 'ok'});
+        });
+    };
+
+    this.createUser = function(req, res) {
+        var user = new User({
+            userName: req.body.userName,
+            //password: bcrypt.hashSync(req.body.password, 12)
+            password: req.body.password
+        });
+
+        user.save(function (err, book) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json(err);
+            }
+            return res.json(book);
+        });
     };
 }
 

@@ -25,6 +25,14 @@ tradingApp.config(['$routeProvider',
         .when('/settings', {
             templateUrl: 'public/partials/settings.html',
             controller: 'settingsController'
+        })
+        .when('/signUp', {
+            templateUrl: 'public/partials/signUp.html',
+            controller: 'signUpController'
+        })
+        .when('/login', {
+            templateUrl: 'public/partials/login.html',
+            controller: 'loginController'
         }).
         otherwise({
             redirectTo: '/home'

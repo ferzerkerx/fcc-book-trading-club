@@ -50,6 +50,9 @@ tradingControllers.controller('myBooksController', ['$scope', '$route', '$window
 
 tradingControllers.controller('settingsController', ['$scope', '$rootScope','$route', '$window','$location', 'tradingService',
     function ($scope, $rootScope, $route, $window, $location, tradingService) {
+
+        refreshUserDetails(tradingService, $rootScope);
+
         $scope.form = {
             fullName: $rootScope.userDetails.fullName,
             city: $rootScope.userDetails.city,
@@ -58,24 +61,55 @@ tradingControllers.controller('settingsController', ['$scope', '$rootScope','$ro
 
         $scope.updateSettings = function() {
             tradingService.updateSettings($scope.form).then(function() {
-                $route.reload();
+                $location.path('/home');
             });
         };
 
     }]);
 
+tradingControllers.controller('signUpController', ['$scope', '$rootScope','$route', '$window','$location', 'tradingService',
+    function ($scope, $rootScope, $route, $window, $location, tradingService) {
+        $scope.form = {};
+
+        $scope.signUp = function() {
+            tradingService.signUp($scope.form).then(function() {
+                $scope.form = {};
+                $location.path('/home');
+            });
+        };
+
+    }]);
+
+tradingControllers.controller('loginController', ['$scope', '$rootScope','$route', '$window','$location', 'tradingService',
+    function ($scope, $rootScope, $route, $window, $location, tradingService) {
+
+        $scope.form = {};
+
+        $scope.signIn = function() {
+            tradingService.doLogin($scope.form).then(function() {
+                $scope.form = {};
+                $location.path('/home');
+            });
+        };
+
+    }]);
+
+function refreshUserDetails(tradingService, $rootScope) {
+    tradingService.userDetails().then(function (data) {
+        $rootScope.userDetails = data;
+        $rootScope.userDetails.displayName = data.fullName ? data.fullName : data.userName;
+    });
+}
 tradingControllers.controller('barController', ['$scope', '$rootScope', '$route', '$routeParams' ,'$window','$location', 'tradingService',
     function ($scope, $rootScope, $route, $routeParams , $window, $location, tradingService) {
 
         $rootScope.userDetails = {};
 
-        tradingService.userDetails().then(function(data) {
-            $rootScope.userDetails = data;
-        });
+        refreshUserDetails(tradingService, $rootScope);
 
-        $scope.login = function () {
-            tradingService.doLogin().then(function() {
-                $route.reload();
+        $scope.logout = function () {
+            tradingService.doLogout().then(function() {
+                $location.path('/home');
             });
         };
 

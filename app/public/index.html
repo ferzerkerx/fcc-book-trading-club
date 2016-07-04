@@ -15,20 +15,23 @@
                 <a class="navbar-brand" href="#">FCC Book Trading App</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="/#/home" data-toggle="tab">Home</a></li>
+                <li><a ng-href="#/home" data-toggle="tab">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ng-href="/#/all-books" data-toggle="tab">All Books</a></li>
-                <li><a ng-href="/#/my-books" data-toggle="tab">My Books</a></li>
-                <li ng-show="userDetails.isLogged"><a ng-href="/#/settings" data-toggle="tab">Settings</a></li>
+                <li><a ng-href="#/all-books" data-toggle="tab">All Books</a></li>
+                <li><a ng-href="#/my-books" data-toggle="tab">My Books</a></li>
+                <li ng-show="userDetails.isLogged"><a ng-href="#/settings" data-toggle="tab">Settings</a></li>
 
                 <li ng-show="!userDetails.isLogged">
-                    <button ng-click="login()" class="btn btn-primary sign-in">Sign in</button>
+                    <a ng-href="#/login" class="btn btn-primary sign-in">Sign in</a>
+                </li>
+                <li ng-show="!userDetails.isLogged">
+                    <a ng-href="#/signUp" class="btn btn-primary sign-in">Sign up</a>
                 </li>
                 <li ng-show="userDetails.isLogged">
                     <div class="dropdown sign-in">
                         <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
-                            {{userDetails.name}}
+                            {{userDetails.displayName}}
                             <span class="caret"></span>
                         </button>
 

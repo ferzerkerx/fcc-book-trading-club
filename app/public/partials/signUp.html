@@ -1,0 +1,19 @@
+<div>
+    <h1>Sign Up:</h1>
+    <form ng-submit="signUp()">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" ng-model="form.userName" required/>
+        </div>
+        <div class="form-group">
+            <label for="pass">Password:</label>
+            <input type="password" class="form-control" id="pass" ng-model="form.password" required/>
+        </div>
+        <div class="form-group">
+            <label for="confPass">Confirm Password:</label>
+            <input type="password" class="form-control" id="confPass" ng-model="form.confPassword" required/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+</div>
