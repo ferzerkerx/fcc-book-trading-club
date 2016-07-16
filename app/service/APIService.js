@@ -6,7 +6,6 @@ var User = require(path + '/app/models/User.js');
 var UserTrade = require(path + '/app/models/UserTrade.js');
 var ObjectId = require('mongodb').ObjectID;
 var qs = require("qs");
-var Q = require("q");
 //var bcrypt = require("bcrypt");
 var request = require("request");
 
@@ -153,95 +152,51 @@ function ApiService () {
         var currentUserId = ObjectId(req.session.userData.id);
 
         var trades = [];
-        Q(UserBook.find({owner:currentUserId}).exec())
-            .then(function(userBooks) {
+        var bookIds = [];
+        UserBook.find({owner: currentUserId}).exec()
+            .then(function findActiveTradesForCurrentUser(userBooks) {
 
                 var ownedBooksIds = userBooks.map(function mapToId(element) {
-                   return element._id;
+                    return element._id;
                 });
 
                 var conditions = {
                     $and: [
-                        {$or: [{'user_book': {"$in":ownedBooksIds}}, {borrower: currentUserId}]},
+                        {$or: [{'user_book': {"$in": ownedBooksIds}}, {borrower: currentUserId}]},
                         {$or: [{status: 'Pending'}, {status: 'Accepted'}]}
                     ]
                 };
-                return Q(UserTrade.find(conditions).exec())
+                return UserTrade.find(conditions).exec()
             })
-            .then(function(userTrades) {
-                var bookIds = [];
-                userTrades.forEach(function(e) {
-                    bookIds.push(e.user_book);
+            .then(function prepareTradeData(userTrades) {
+                userTrades.forEach(function (trade) {
+                    bookIds.push(trade.user_book);
                     var elemData = {
-                        _id: e._id,
-                        user_book: e.user_book,
-                        status: e.status,
-                        isBorrower: e.borrower === currentUserId,
-                        isPending: e.status === 'Pending',
-                        isAccepted: e.status === 'Accepted'
+                        _id: trade._id,
+                        user_book: trade.user_book,
+                        status: trade.status,
+                        isBorrower: trade.borrower === currentUserId,
+                        isPending: trade.status === 'Pending',
+                        isAccepted: trade.status === 'Accepted'
 
                     };
                     trades.push(elemData);
                 });
-                return Q(UserBook.find({"_id":{"$in":bookIds}}).exec());
             })
-            .then(function(userBooks) {
+            .then(function findBookDetailsByIds() {
+                return UserBook.find({"_id": {"$in": bookIds}}).exec();
+            })
+            .then(function writeTradeDataToResponse(userBooks) {
                 var result = {
                     trades: trades,
                     books: userBooks
                 };
                 return res.json(result);
-            }).catch(function(err) {
-                    console.log(err);
-                    return res.json(500, {});
+            })
+            .catch(function (err) {
+                console.log(err);
+                return res.json(500, {});
             });
-
-
-        // var conditions = {
-        //     $and: [
-        //         {$or: [{'user_book.owner': currentUserId}, {borrower: currentUserId}]},
-        //         {$or: [{status: 'Pending'}, {status: 'Accepted'}]}
-        //     ]
-        // };
-        //
-        // UserTrade.find(conditions, function(err, userTrades){
-        //     if (err) {
-        //         console.log(err);
-        //         return res.json(500, {});
-        //     }
-        //
-        //     var bookIds = [];
-        //     var trades = [];
-        //     userTrades.forEach(function(e) {
-        //         bookIds.push(e.user_book);
-        //         var elemData = {
-        //             _id: e._id,
-        //             user_book: e.user_book,
-        //             status: e.status,
-        //             isBorrower: e.borrower === currentUserId,
-        //             isPending: e.status === 'Pending',
-        //             isAccepted: e.status === 'Accepted'
-        //
-        //         };
-        //         trades.push(elemData);
-        //     });
-        //
-        //     UserBook.find({"_id":{"$in":bookIds}}, function (err, books) {
-        //
-        //         if (err) {
-        //             console.log(err);
-        //             return res.json(500, {});
-        //         }
-        //
-        //         var result = {
-        //             trades: trades,
-        //             books: books
-        //         };
-        //         return res.json(result);
-        //
-        //     });
-        //
-        // });
     };
 
     this.listAllBooks = function(req, res) {
