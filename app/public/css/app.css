@@ -9,6 +9,20 @@
     height: 14em;
 }
 
+.book-borrower {
+    margin: auto;
+    border: 0.3em orange solid;
+    width: 9.2em;
+    height: 14em;
+}
+
+.book-owner {
+    margin: auto;
+    border: 0.3em cadetblue solid;
+    width: 9.2em;
+    height: 14em;
+}
+
 
 .image-text-on-top {
     position: relative;
@@ -24,6 +38,13 @@
 
 .dismiss-book {
     color: red;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.share-book {
+    color: darkorange;
     font-size: 1.5em;
     font-weight: bold;
     cursor: pointer;

@@ -1,4 +1,18 @@
 <div>
+    <h1>Pending Trades:</h1>
+    <div class="trades">
+        <span ng-repeat="trade in userTrades.trades.pendingTrades">
+            <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img" ng-class="trade.isBorrower ? 'book-borrower' : 'book-owner'"/>
+        </span>
+    </div>
+    <h1>On-going Trades:</h1>
+    <div class="trades">
+        <span ng-repeat="trade in userTrades.trades.acceptedTrades">
+            <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img" ng-class="trade.isBorrower ? 'book-borrower' : 'book-owner'"/>
+        </span>
+    </div>
+</div>
+<div>
     <h1>My Books:</h1>
     <form ng-submit="addBook()">
         <input type="text" placeholder="Add Book" ng-model="form.bookName"/>

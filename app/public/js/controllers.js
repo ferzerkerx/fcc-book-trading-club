@@ -19,6 +19,14 @@ tradingControllers.controller('allBooksController', ['$scope', '$route', '$windo
             $scope.books = data;
         });
 
+        $scope.proposeTrade = function(index) {
+            var book = $scope.books[index];
+
+            tradingService.proposeTrade(book._id).then(function() {
+                //TODO
+            });
+        };
+
     }]);
 
 
@@ -26,10 +34,12 @@ tradingControllers.controller('myBooksController', ['$scope', '$route', '$window
     function ($scope, $route, $window, $location, tradingService) {
         $scope.form = {};
         $scope.userBooks = [];
+        $scope.userTrades = [];
 
-        $scope.addUserBook = function() {
+        $scope.addBook = function() {
             tradingService.addUserBook($scope.form.bookName).then(function(data) {
                 $scope.userBooks.push(data);
+                $scope.form = {};
             });
         };
 
@@ -45,6 +55,10 @@ tradingControllers.controller('myBooksController', ['$scope', '$route', '$window
             $scope.userBooks = data;
         });
 
+        tradingService.listMyTrades().then(function(data) {
+            $scope.userTrades = data;
+        });
+
     }]);
 
 
@@ -54,10 +68,11 @@ tradingControllers.controller('settingsController', ['$scope', '$rootScope','$ro
         refreshUserDetails(tradingService, $rootScope);
 
         $scope.updateSettings = function() {
+            var userDetails = $rootScope.userDetails;
             var form = {
-                fullName: $rootScope.userDetails.fullName,
-                city: $rootScope.userDetails.city,
-                state: $rootScope.userDetails.state
+                fullName: userDetails.fullName,
+                city: userDetails.city,
+                state: userDetails.state
             };
             tradingService.updateSettings(form).then(function() {
                 $location.path('/home');

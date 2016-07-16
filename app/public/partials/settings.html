@@ -1,9 +1,18 @@
 <div>
     <h1>Settings:</h1>
     <form ng-submit="updateSettings()">
-        <input type="text" placeholder="Full name" ng-model="userDetails.fullName"/>
-        <input type="text" placeholder="City" ng-model="userDetails.city"/>
-        <input type="text" placeholder="State" ng-model="userDetails.state"/>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input type="text" class="form-control" id="fullName" ng-model="userDetails.fullName"/>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" id="city" ng-model="userDetails.city"/>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input type="text" class="form-control" id="state" ng-model="userDetails.state"/>
+        </div>
+        <button type="submit" class="btn btn-primary pull-right">Update</button>
     </form>
 </div>

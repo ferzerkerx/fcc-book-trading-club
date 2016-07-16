@@ -43,4 +43,19 @@ module.exports = function (app) {
     app.route('/api/user/')
         .post(apiService.createUser);
 
+    app.route('/api/propose-trade')
+        .post(apiService.proposeTrade);
+
+    app.route('/api/accept-trade')
+        .put(apiService.acceptTrade);
+
+    app.route('/api/decline-trade')
+        .put(apiService.declineTrade);
+
+    app.route('/api/end-trade')
+        .put(apiService.endTrade);
+
+    app.route('/api/my-trades')
+        .get(apiService.listAllMyTrades);
+
 };

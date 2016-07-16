@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require('dotenv').load();
 
 mongoose.connect(process.env.MONGO_URI);
+mongoose.Promise = require('q').Promise;
 
 app.use(session({
     secret: "secret book-trading",

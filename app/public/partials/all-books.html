@@ -4,7 +4,7 @@
         <span ng-repeat="book in books">
             <span class="image-text-on-top">
                 <img ng-src="{{book.img_url}}" class="book-img"/>
-                <span><a ng-click="removeBook($index)" class="dismiss-book">X</a></span>
+                <span><a ng-click="proposeTrade($index)" class="share-book"><i class="fa fa-share"></i></a></span>
             </span>
         </span>
     </div>

@@ -34,7 +34,7 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
-        var addBook = function(bookName) {
+        var addUserBook = function(bookName) {
             var url = appContext + '/api/my-books/';
             return $http.post(url, {bookName: bookName}).then(function (response) {
                 return response.data;
@@ -69,6 +69,44 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var listMyTrades = function() {
+            var url = appContext + '/api/my-trades';
+            return $http.get(url).then(function (response) {
+
+                var data = response.data;
+                var trades =  data['trades'];
+                var books =  data['books'];
+
+                var mappedBooks = {};
+                books.forEach(function(e) {
+                    mappedBooks[e["_id"]] = e;
+                });
+
+                var acceptedTrades = trades.filter(function(e) {
+                    return e.isAccepted;
+                });
+
+                var pendingTrades = trades.filter(function(e) {
+                    return e.isPending;
+                });
+
+                return {
+                    trades: {
+                        acceptedTrades: acceptedTrades,
+                        pendingTrades: pendingTrades
+                    },
+                    books: mappedBooks
+                };
+            });
+        };
+
+        var proposeTrade = function(bookId) {
+            var url = appContext + '/api/propose-trade';
+            return $http.post(url, {book_id: bookId}).then(function (response) {
+                return response.data;
+            });
+        };
+
         var signUp = function(settings) {
             var url = appContext + '/api/user/';
             return $http.post(url, settings).then(function (response) {
@@ -78,10 +116,14 @@ tradingServices.factory('tradingService', ['$http', '$location',
 
 
         return {
-            addBook: addBook,
+            addUserBook: addUserBook,
             removeBook: removeBook,
             listMyBooks: listMyBooks,
             listAllBooks: listAllBooks,
+
+            listMyTrades: listMyTrades,
+            proposeTrade: proposeTrade,
+
             signUp: signUp,
             updateSettings: updateSettings,
             userDetails: userDetails,

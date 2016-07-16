@@ -3,7 +3,10 @@
 var path = process.cwd();
 var UserBook = require(path + '/app/models/UserBook.js');
 var User = require(path + '/app/models/User.js');
+var UserTrade = require(path + '/app/models/UserTrade.js');
+var ObjectId = require('mongodb').ObjectID;
 var qs = require("qs");
+var Q = require("q");
 //var bcrypt = require("bcrypt");
 var request = require("request");
 
@@ -98,6 +101,149 @@ function ApiService () {
         });
     };
 
+    this.proposeTrade = function(req, res) {
+
+        var userTrade = new UserTrade({
+            user_book: req.body.book_id,
+            borrower: req.session.userData.id,
+            status: 'Pending'
+        });
+
+        userTrade.save(function (err, userTrade) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json(err);
+            }
+            return res.json(userTrade);
+        });
+    };
+
+    function updateUserTrade(userTradeId, updateFields, res) {
+        User.findOneAndUpdate({_id: userTradeId},
+            updateFields, function (err, userTrade) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json(err);
+                }
+
+                return res.json(userTrade);
+            });
+    }
+
+    this.acceptTrade = function(req, res) {
+        var updateFields = {status: 'Accepted'};
+        var userTradeId = req.params.userTradeId;
+        updateUserTrade(userTradeId, updateFields, res);
+    };
+
+    this.declineTrade = function(req, res) {
+        var updateFields = {status: 'Declined'};
+        var userTradeId = req.params.userTradeId;
+        updateUserTrade(userTradeId, updateFields, res);
+    };
+
+    this.endTrade = function(req, res) {
+        var updateFields = {status: 'Finished'};
+        var userTradeId = req.params.userTradeId;
+        updateUserTrade(userTradeId, updateFields, res);
+    };
+
+
+    this.listAllMyTrades = function(req, res) {
+        var currentUserId = ObjectId(req.session.userData.id);
+
+        var trades = [];
+        Q(UserBook.find({owner:currentUserId}).exec())
+            .then(function(userBooks) {
+
+                var ownedBooksIds = userBooks.map(function mapToId(element) {
+                   return element._id;
+                });
+
+                var conditions = {
+                    $and: [
+                        {$or: [{'user_book': {"$in":ownedBooksIds}}, {borrower: currentUserId}]},
+                        {$or: [{status: 'Pending'}, {status: 'Accepted'}]}
+                    ]
+                };
+                return Q(UserTrade.find(conditions).exec())
+            })
+            .then(function(userTrades) {
+                var bookIds = [];
+                userTrades.forEach(function(e) {
+                    bookIds.push(e.user_book);
+                    var elemData = {
+                        _id: e._id,
+                        user_book: e.user_book,
+                        status: e.status,
+                        isBorrower: e.borrower === currentUserId,
+                        isPending: e.status === 'Pending',
+                        isAccepted: e.status === 'Accepted'
+
+                    };
+                    trades.push(elemData);
+                });
+                return Q(UserBook.find({"_id":{"$in":bookIds}}).exec());
+            })
+            .then(function(userBooks) {
+                var result = {
+                    trades: trades,
+                    books: userBooks
+                };
+                return res.json(result);
+            }).catch(function(err) {
+                    console.log(err);
+                    return res.json(500, {});
+            });
+
+
+        // var conditions = {
+        //     $and: [
+        //         {$or: [{'user_book.owner': currentUserId}, {borrower: currentUserId}]},
+        //         {$or: [{status: 'Pending'}, {status: 'Accepted'}]}
+        //     ]
+        // };
+        //
+        // UserTrade.find(conditions, function(err, userTrades){
+        //     if (err) {
+        //         console.log(err);
+        //         return res.json(500, {});
+        //     }
+        //
+        //     var bookIds = [];
+        //     var trades = [];
+        //     userTrades.forEach(function(e) {
+        //         bookIds.push(e.user_book);
+        //         var elemData = {
+        //             _id: e._id,
+        //             user_book: e.user_book,
+        //             status: e.status,
+        //             isBorrower: e.borrower === currentUserId,
+        //             isPending: e.status === 'Pending',
+        //             isAccepted: e.status === 'Accepted'
+        //
+        //         };
+        //         trades.push(elemData);
+        //     });
+        //
+        //     UserBook.find({"_id":{"$in":bookIds}}, function (err, books) {
+        //
+        //         if (err) {
+        //             console.log(err);
+        //             return res.json(500, {});
+        //         }
+        //
+        //         var result = {
+        //             trades: trades,
+        //             books: books
+        //         };
+        //         return res.json(result);
+        //
+        //     });
+        //
+        // });
+    };
+
     this.listAllBooks = function(req, res) {
         UserBook.find({}, function(err, books){
             if (err) {
@@ -141,6 +287,9 @@ function ApiService () {
                 return res.status(500).json(err);
             }
 
+            if (!user) {
+                return res.status(401).json({message: 'unauthorized'});
+            }
             //var doesMatch = bcrypt.compareSync(user.password, req.body.password);
             var doesMatch = user.password === req.body.password;
             if (doesMatch) {
