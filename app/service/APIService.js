@@ -149,7 +149,7 @@ function ApiService () {
 
 
     this.listAllMyTrades = function(req, res) {
-        var currentUserId = ObjectId(req.session.userData.id);
+        var currentUserId = req.session.userData.id;
 
         var trades = [];
         var bookIds = [];
@@ -175,13 +175,14 @@ function ApiService () {
                         _id: trade._id,
                         user_book: trade.user_book,
                         status: trade.status,
-                        isBorrower: trade.borrower === currentUserId,
+                        isBorrower: (trade.borrower.toString() === currentUserId),
                         isPending: trade.status === 'Pending',
                         isAccepted: trade.status === 'Accepted'
 
                     };
                     trades.push(elemData);
                 });
+                console.log(JSON.stringify(trades));
             })
             .then(function findBookDetailsByIds() {
                 return UserBook.find({"_id": {"$in": bookIds}}).exec();
