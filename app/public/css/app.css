@@ -30,8 +30,8 @@
 
 .image-text-on-top span {
     position: absolute;
-    left: 0.5em;
-    right: 0.5em;
+    left: 0.8em;
+    right: 0.1em;
     width: 90%;
     text-align: right;
 }
@@ -41,6 +41,20 @@
     font-size: 1.5em;
     font-weight: bold;
     cursor: pointer;
+    background-color: white;
+    border-radius: 1em;
+    border: 0.1em solid papayawhip;
+}
+
+
+.accept-trade {
+    color: #245269;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 1em;
+    border: 0.1em solid papayawhip;
 }
 
 .share-book {

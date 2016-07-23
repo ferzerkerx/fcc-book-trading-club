@@ -4,7 +4,6 @@ var path = process.cwd();
 var UserBook = require(path + '/app/models/UserBook.js');
 var User = require(path + '/app/models/User.js');
 var UserTrade = require(path + '/app/models/UserTrade.js');
-var ObjectId = require('mongodb').ObjectID;
 var qs = require("qs");
 //var bcrypt = require("bcrypt");
 var request = require("request");
@@ -118,7 +117,9 @@ function ApiService () {
     };
 
     function updateUserTrade(userTradeId, updateFields, res) {
-        User.findOneAndUpdate({_id: userTradeId},
+        console.log('updateUserTrade:' + userTradeId);
+        console.log('updateFields:' + JSON.stringify(updateFields));
+        UserTrade.findOneAndUpdate({_id: userTradeId},
             updateFields, function (err, userTrade) {
                 if (err) {
                     console.log(err);
@@ -131,19 +132,19 @@ function ApiService () {
 
     this.acceptTrade = function(req, res) {
         var updateFields = {status: 'Accepted'};
-        var userTradeId = req.params.userTradeId;
+        var userTradeId = req.body.userTradeId;
         updateUserTrade(userTradeId, updateFields, res);
     };
 
     this.declineTrade = function(req, res) {
         var updateFields = {status: 'Declined'};
-        var userTradeId = req.params.userTradeId;
+        var userTradeId = req.body.userTradeId;
         updateUserTrade(userTradeId, updateFields, res);
     };
 
     this.endTrade = function(req, res) {
         var updateFields = {status: 'Finished'};
-        var userTradeId = req.params.userTradeId;
+        var userTradeId = req.body.userTradeId;
         updateUserTrade(userTradeId, updateFields, res);
     };
 
@@ -182,7 +183,6 @@ function ApiService () {
                     };
                     trades.push(elemData);
                 });
-                console.log(JSON.stringify(trades));
             })
             .then(function findBookDetailsByIds() {
                 return UserBook.find({"_id": {"$in": bookIds}}).exec();

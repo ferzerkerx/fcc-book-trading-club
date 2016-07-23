@@ -41,6 +41,20 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var denyTrade = function(tradeId) {
+            var url = appContext + '/api/decline-trade';
+            return $http.put(url, {userTradeId: tradeId}).then(function (response) {
+                return response.data;
+            });
+        };
+
+        var acceptTrade = function(tradeId) {
+            var url = appContext + '/api/accept-trade';
+            return $http.put(url, {userTradeId: tradeId}).then(function (response) {
+                return response.data;
+            });
+        };
+
         var removeBook = function(bookId) {
             var url = appContext + '/api/my-books/' + bookId;
             return $http.delete(url).then(function (response) {
@@ -116,6 +130,8 @@ tradingServices.factory('tradingService', ['$http', '$location',
 
 
         return {
+            denyTrade: denyTrade,
+            acceptTrade: acceptTrade,
             addUserBook: addUserBook,
             removeBook: removeBook,
             listMyBooks: listMyBooks,

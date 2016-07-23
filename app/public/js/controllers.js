@@ -36,6 +36,21 @@ tradingControllers.controller('myBooksController', ['$scope', '$route', '$window
         $scope.userBooks = [];
         $scope.userTrades = [];
 
+
+        $scope.denyTrade = function(index) {
+            var trade  = $scope.userTrades.trades.pendingTrades[index];
+            tradingService.denyTrade(trade._id).then(function() {
+                $route.reload();
+            });
+        };
+
+        $scope.acceptTrade = function(index) {
+            var trade  = $scope.userTrades.trades.pendingTrades[index];
+            tradingService.acceptTrade(trade._id).then(function() {
+                $route.reload();
+            });
+        };
+
         $scope.addBook = function() {
             tradingService.addUserBook($scope.form.bookName).then(function(data) {
                 $scope.userBooks.push(data);
