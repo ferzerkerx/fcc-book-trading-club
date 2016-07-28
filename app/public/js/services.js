@@ -55,6 +55,13 @@ tradingServices.factory('tradingService', ['$http', '$location',
             });
         };
 
+        var endTrade = function(tradeId) {
+            var url = appContext + '/api/end-trade';
+            return $http.put(url, {userTradeId: tradeId}).then(function (response) {
+                return response.data;
+            });
+        };
+
         var removeBook = function(bookId) {
             var url = appContext + '/api/my-books/' + bookId;
             return $http.delete(url).then(function (response) {
@@ -132,6 +139,7 @@ tradingServices.factory('tradingService', ['$http', '$location',
         return {
             denyTrade: denyTrade,
             acceptTrade: acceptTrade,
+            endTrade: endTrade,
             addUserBook: addUserBook,
             removeBook: removeBook,
             listMyBooks: listMyBooks,

@@ -51,6 +51,13 @@ tradingControllers.controller('myBooksController', ['$scope', '$route', '$window
             });
         };
 
+        $scope.endTrade = function(index) {
+            var trade  = $scope.userTrades.trades.acceptedTrades[index];
+            tradingService.endTrade(trade._id).then(function() {
+                $route.reload();
+            });
+        };
+
         $scope.addBook = function() {
             tradingService.addUserBook($scope.form.bookName).then(function(data) {
                 $scope.userBooks.push(data);

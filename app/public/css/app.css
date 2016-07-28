@@ -57,6 +57,16 @@
     border: 0.1em solid papayawhip;
 }
 
+.end-trade {
+    color: #00b3ee;
+    font-size: 1.5em;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 1em;
+    border: 0.1em solid papayawhip;
+}
+
 .share-book {
     color: darkorange;
     font-size: 1.5em;
