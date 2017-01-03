@@ -5,7 +5,7 @@ var UserBook = require(path + '/app/models/UserBook.js');
 var User = require(path + '/app/models/User.js');
 var UserTrade = require(path + '/app/models/UserTrade.js');
 var qs = require("qs");
-var bcrypt = require("bcrypt");
+//var bcrypt = require("bcrypt");
 var request = require("request");
 
 function ApiService () {
@@ -255,8 +255,8 @@ function ApiService () {
             if (!user) {
                 return res.status(401).json({message: 'unauthorized'});
             }
-            var doesMatch = bcrypt.compareSync(user.password, req.body.password);
-            //var doesMatch = user.password === req.body.password;
+            //var doesMatch = bcrypt.compareSync(user.password, req.body.password);
+            var doesMatch = user.password === req.body.password;
             if (doesMatch) {
                 setUserSessionData(req, user);
             }
@@ -267,7 +267,8 @@ function ApiService () {
     this.createUser = function(req, res) {
         var user = new User({
             userName: req.body.userName,
-            password: bcrypt.hashSync(req.body.password, 12)
+            // password: bcrypt.hashSync(req.body.password, 12)
+            password: req.body.password
         });
 
         user.save(function (err, book) {
