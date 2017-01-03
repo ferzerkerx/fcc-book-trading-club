@@ -35,6 +35,6 @@ tradingApp.config(['$routeProvider',
             controller: 'loginController'
         }).
         otherwise({
-            redirectTo: '/home'
+            redirectTo: '/all-books'
         });
     }]);
