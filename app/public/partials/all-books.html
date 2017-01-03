@@ -1,10 +1,10 @@
-<div class="all-books">
+<div class="all-books-div">
     <h3>All Books:</h3>
     <div class="added-books">
         <span ng-repeat="book in books">
             <span class="image-text-on-top">
                 <img ng-src="{{book.img_url}}" class="book-img"/>
-                <span ng-if="!book.isOwner"><a ng-click="proposeTrade($index)" class="share-book"><i class="fa fa-share"></i></a></span>
+                <span ng-if="userDetails.displayName && !book.isOwner"><a ng-click="proposeTrade($index)" class="share-book"><i class="fa fa-share"></i></a></span>
             </span>
         </span>
     </div>

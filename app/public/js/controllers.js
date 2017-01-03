@@ -6,6 +6,7 @@ var tradingControllers = angular.module('tradingControllers', []);
 tradingControllers.controller('homeController', ['$scope', '$route', '$window','$location', 'tradingService', '$rootScope',
     function ($scope, $route, $window, $location, tradingService, $rootScope) {
         refreshUserDetails(tradingService, $rootScope);
+        $location.path('/all-books');
     }]);
 
 

@@ -203,6 +203,7 @@ function ApiService () {
             if (req.session.userData) {
                 books = books.map(function (book) {
                     return {
+                        _id: book._id,
                         name: book.name,
                         book_id: book.book_id,
                         img_url: book.img_url,
