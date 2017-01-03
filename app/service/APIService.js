@@ -5,7 +5,7 @@ var UserBook = require(path + '/app/models/UserBook.js');
 var User = require(path + '/app/models/User.js');
 var UserTrade = require(path + '/app/models/UserTrade.js');
 var qs = require("qs");
-//var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt");
 var request = require("request");
 
 function ApiService () {
