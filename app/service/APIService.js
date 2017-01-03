@@ -201,12 +201,24 @@ function ApiService () {
     };
 
     this.listAllBooks = function(req, res) {
-        UserBook.find({}, function(err, books){
-            if (err) {
-                console.log(err);
-                return res.json(500, {});
+        UserBook.find({}).exec().
+        then(function prepareData(books) {
+            if (req.session.userData) {
+                books = books.map(function (book) {
+                    return {
+                        name: book.name,
+                        book_id: book.book_id,
+                        img_url: book.img_url,
+                        owner: book.img_url,
+                        isOwner: (book.owner.toString() === req.session.userData.id)
+                    };
+                });
             }
             return res.json(books);
+        })
+        .catch(function (err) {
+            console.log(err);
+            return res.json(500, {});
         });
     };
 
@@ -259,7 +271,7 @@ function ApiService () {
         var user = new User({
             userName: req.body.userName,
             //password: bcrypt.hashSync(req.body.password, 12)
-            password: req.body.password
+            password: req.body.password //TODO remove
         });
 
         user.save(function (err, book) {

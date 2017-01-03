@@ -23,7 +23,7 @@ tradingControllers.controller('allBooksController', ['$scope', '$route', '$windo
             var book = $scope.books[index];
 
             tradingService.proposeTrade(book._id).then(function() {
-                //TODO
+                $location.path('/my-books');
             });
         };
 
