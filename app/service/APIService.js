@@ -255,8 +255,8 @@ function ApiService () {
             if (!user) {
                 return res.status(401).json({message: 'unauthorized'});
             }
-            //var doesMatch = bcrypt.compareSync(user.password, req.body.password);
-            var doesMatch = user.password === req.body.password;
+            var doesMatch = bcrypt.compareSync(user.password, req.body.password);
+            //var doesMatch = user.password === req.body.password;
             if (doesMatch) {
                 setUserSessionData(req, user);
             }
