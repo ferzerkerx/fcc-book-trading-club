@@ -3,10 +3,9 @@
 
 var tradingControllers = angular.module('tradingControllers', []);
 
-tradingControllers.controller('homeController', ['$scope', '$route', '$window','$location', 'tradingService',
-    function ($scope, $route, $window, $location, tradingService) {
-
-
+tradingControllers.controller('homeController', ['$scope', '$route', '$window','$location', 'tradingService', '$rootScope',
+    function ($scope, $route, $window, $location, tradingService, $rootScope) {
+        refreshUserDetails(tradingService, $rootScope);
     }]);
 
 
@@ -147,6 +146,8 @@ tradingControllers.controller('barController', ['$scope', '$rootScope', '$route'
             tradingService.doLogout().then(function() {
                 $location.path('/home');
             });
+
+            $rootScope.userDetails = {};
         };
 
     }]);
