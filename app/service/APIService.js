@@ -64,7 +64,6 @@ function ApiService () {
                 if (!error && response.statusCode == 200) {
 
                     var bookResults = JSON.parse(body);
-                    console.log(JSON.stringify(bookResults));
                     var items = bookResults.items;
                     if (items.length == 0) {
                         return res.json({});
@@ -117,8 +116,6 @@ function ApiService () {
     };
 
     function updateUserTrade(userTradeId, updateFields, res) {
-        console.log('updateUserTrade:' + userTradeId);
-        console.log('updateFields:' + JSON.stringify(updateFields));
         UserTrade.findOneAndUpdate({_id: userTradeId},
             updateFields, function (err, userTrade) {
                 if (err) {
@@ -270,8 +267,7 @@ function ApiService () {
     this.createUser = function(req, res) {
         var user = new User({
             userName: req.body.userName,
-            //password: bcrypt.hashSync(req.body.password, 12)
-            password: req.body.password //TODO remove
+            password: bcrypt.hashSync(req.body.password, 12)
         });
 
         user.save(function (err, book) {
