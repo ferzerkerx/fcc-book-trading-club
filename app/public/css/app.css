@@ -73,3 +73,48 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.by {
+    position: fixed;
+    bottom: 1em;
+    right: 50%;
+}
+
+.main-content {
+    background-color: #5e5e5e;
+    border-radius: 2em;
+    color: whitesmoke;
+}
+
+.sign-in {
+    margin-right: 2em;
+    margin-top: 0.5em;
+}
+
+.my-books-section {
+    padding: 1em;
+}
+
+.trades {
+
+}
+
+.trades div {
+    margin-top: 1em;
+}
+
+.my-books {
+
+}
+
+.my-book-divider {
+    border-top: 6px solid darkkhaki;
+}
+
+.all-books {
+    margin: 1em;
+}
+
+body {
+
+}

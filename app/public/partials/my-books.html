@@ -1,10 +1,10 @@
-<div>
-    <h1>Pending Trades:</h1>
-    <div class="trades">
+<div class="my-books-section trades">
+    <div class="my-books-section">
+        <h4>Pending Trades:</h4>
         <span ng-repeat="trade in userTrades.trades.pendingTrades">
             <span ng-show="trade.isBorrower" class="image-text-on-top">
                 <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img book-borrower"/>
-                <span ><a ng-click="denyTrade($index)" class="dismiss-book"><i class="fa fa-times"></i></a></span>
+                <span><a ng-click="denyTrade($index)" class="dismiss-book"><i class="fa fa-times"></i></a></span>
              </span>
             <span ng-show="!trade.isBorrower" class="image-text-on-top">
                 <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img book-owner"/>
@@ -12,16 +12,22 @@
             </span>
         </span>
     </div>
-    <h1>On-going Trades:</h1>
-    <div class="trades">
-        <span ng-repeat="trade in userTrades.trades.acceptedTrades" class="image-text-on-top">
-            <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img" ng-class="trade.isBorrower ? 'book-borrower' : 'book-owner'"/>
-            <span ng-show="!trade.isBorrower"><a ng-click="endTrade($index)" class="end-trade"><i class="fa fa-eject"></i></a></span>
-        </span>
-    </div>
 </div>
-<div>
-    <h1>My Books:</h1>
+<hr class="my-book-divider"/>
+<div class="my-books-section trades">
+
+    <h4>On-going Trades:</h4>
+    <span ng-repeat="trade in userTrades.trades.acceptedTrades" class="image-text-on-top">
+            <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img"
+                 ng-class="trade.isBorrower ? 'book-borrower' : 'book-owner'"/>
+            <span ng-show="!trade.isBorrower"><a ng-click="endTrade($index)" class="end-trade"><i
+                    class="fa fa-eject"></i></a></span>
+        </span>
+
+</div>
+<hr class="my-book-divider"/>
+<div class="my-books-section my-books">
+    <h4>My Books:</h4>
     <form ng-submit="addBook()">
         <input type="text" placeholder="Add Book" ng-model="form.bookName"/>
         <button type="submit" class="btn btn-primary">Add</button>
@@ -35,3 +41,4 @@
         </span>
     </div>
 </div>
+<hr class="my-book-divider"/>

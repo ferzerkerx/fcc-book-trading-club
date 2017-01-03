@@ -2,6 +2,8 @@
 <html lang="en" ng-app="tradingApp">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>FCC Book Trading App</title>
     <link rel="stylesheet" href="public/bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
@@ -9,42 +11,55 @@
 </head>
 <body>
 
-<div ng-controller="barController" class="container">
+<div ng-controller="barController" class="container-fluid">
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <div>
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target="#example-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
                 <a class="navbar-brand" href="#">FCC Book Trading App</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a ng-href="#/home" data-toggle="tab">Home</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a ng-href="#/all-books" data-toggle="tab">All Books</a></li>
-                <li ng-show="userDetails.isLogged"><a ng-href="#/my-books" data-toggle="tab">My Books</a></li>
-                <li ng-show="userDetails.isLogged"><a ng-href="#/settings" data-toggle="tab">Settings</a></li>
+            <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a ng-href="#/home" data-toggle="tab">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ng-href="#/all-books" data-toggle="tab">All Books</a></li>
+                    <li ng-show="userDetails.isLogged"><a ng-href="#/my-books" data-toggle="tab">My Books</a></li>
+                    <li ng-show="userDetails.isLogged"><a ng-href="#/settings" data-toggle="tab">Settings</a></li>
 
-                <li ng-show="!userDetails.isLogged">
-                    <a ng-href="#/login" class="btn btn-primary sign-in">Sign in</a>
-                </li>
-                <li ng-show="!userDetails.isLogged">
-                    <a ng-href="#/signUp" class="btn btn-primary sign-in">Sign up</a>
-                </li>
-                <li ng-show="userDetails.isLogged">
-                    <div class="dropdown sign-in">
-                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
-                            {{userDetails.displayName}}
-                            <span class="caret"></span>
-                        </button>
+                    <li ng-show="!userDetails.isLogged">
+                        <div>
+                            <a ng-href="#/login" class="btn btn-primary sign-in">Sign in</a>
+                        </div>
+                    </li>
+                    <li ng-show="!userDetails.isLogged">
+                        <div>
+                            <a ng-href="#/signUp" class="btn btn-primary sign-in">Sign up</a>
+                        </div>
+                    </li>
+                    <li ng-show="userDetails.isLogged">
+                        <div class="dropdown sign-in">
+                            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                                {{userDetails.displayName}}
+                                <span class="caret"></span>
+                            </button>
 
-                        <ul class="dropdown-menu">
-                            <li class="text-center">
-                                <button ng-click="logout()" class="btn btn-danger sign-out">Sign out</button>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-
+                            <ul class="dropdown-menu">
+                                <li class="text-center">
+                                    <button ng-click="logout()" class="btn btn-danger sign-out">Sign out</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </div>
@@ -53,7 +68,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="main text-center">
-                <h1>FCC Book Trading App</h1>
+                <h2>FCC Book Trading App</h2>
+                <hr class="my-book-divider"/>
             </div>
         </div>
     </div>
