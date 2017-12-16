@@ -3,8 +3,8 @@
     <div class="added-books">
         <span ng-repeat="book in books">
             <span class="image-text-on-top">
-                <img ng-src="{{book.img_url}}" class="book-img"/>
-                <span ng-if="userDetails.displayName && !book.isOwner"><a ng-click="proposeTrade($index)" class="share-book"><i class="fa fa-share"></i></a></span>
+                <img ng-src="{{book.img_url}}" class="book-img" alt="{{book.img_url}}"/>
+                <span ng-if="userDetails.displayName && !book.isOwner"><a ng-click="proposeTrade($index)" class="share-book"><span class="fa fa-share"></span></a></span>
             </span>
         </span>
     </div>

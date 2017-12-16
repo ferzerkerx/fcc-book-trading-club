@@ -3,12 +3,12 @@
         <h4>Pending Trades:</h4>
         <span ng-repeat="trade in userTrades.trades.pendingTrades">
             <span ng-show="trade.isBorrower" class="image-text-on-top">
-                <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img book-borrower"/>
-                <span><a ng-click="denyTrade($index)" class="dismiss-book"><i class="fa fa-times"></i></a></span>
+                <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img book-borrower" alt="{{userTrades.books[trade.user_book].img_url}}"/>
+                <span><a ng-click="denyTrade($index)" class="dismiss-book"><span class="fa fa-times"></span></a></span>
              </span>
             <span ng-show="!trade.isBorrower" class="image-text-on-top">
-                <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img book-owner"/>
-                <span><a ng-click="acceptTrade($index)" class="accept-trade"><i class="fa fa-check"></i></a></span>
+                <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img book-owner" alt="{{userTrades.books[trade.user_book].img_url}}"/>
+                <span><a ng-click="acceptTrade($index)" class="accept-trade"><span class="fa fa-check"></span></a></span>
             </span>
         </span>
     </div>
@@ -19,9 +19,10 @@
     <h4>On-going Trades:</h4>
     <span ng-repeat="trade in userTrades.trades.acceptedTrades" class="image-text-on-top">
             <img ng-src="{{userTrades.books[trade.user_book].img_url}}" class="book-img"
-                 ng-class="trade.isBorrower ? 'book-borrower' : 'book-owner'"/>
-            <span ng-show="!trade.isBorrower"><a ng-click="endTrade($index)" class="end-trade"><i
-                    class="fa fa-eject"></i></a></span>
+                 ng-class="trade.isBorrower ? 'book-borrower' : 'book-owner'"
+                 alt={{userTrades.books[trade.user_book].img_url}}/>
+            <span ng-show="!trade.isBorrower"><a ng-click="endTrade($index)" class="end-trade"><span
+                    class="fa fa-eject"></span></a></span>
         </span>
 
 </div>
@@ -35,7 +36,7 @@
     <div class="added-books">
         <span ng-repeat="book in userBooks">
             <span class="image-text-on-top">
-                <img ng-src="{{book.img_url}}" class="book-img"/>
+                <img ng-src="{{book.img_url}}" class="book-img" alt="{{book.img_url}}"/>
                 <span><a ng-click="removeBook($index)" class="dismiss-book">X</a></span>
             </span>
         </span>
